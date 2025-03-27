@@ -1,7 +1,8 @@
 import streamlit as st
-import base64  # Missing import
+import subprocess
+import base64
 
-# Function to load an image and convert it to base64
+# Function to encode the image to base64
 def get_base64_image(image_path):
     try:
         with open(image_path, "rb") as img_file:
@@ -10,17 +11,17 @@ def get_base64_image(image_path):
         st.error(f"Error: '{image_path}' not found.")
         return None
 
-# Set page title, favicon, and layout
+# Set the page title and favicon
 st.set_page_config(
     page_title="Harry Potter Invisibility Cloak",
-    page_icon="🧙‍♂️",  # Wizard emoji as favicon
+    page_icon="🧙‍♂️",
     layout="wide",
 )
 
 # Get base64 string of the background image
-bg_image = get_base64_image("background.jpg")
+bg_image = get_base64_image("dark-castle.jpg")
 
-# Apply the background using custom CSS (only if image is found)
+# Apply the background using custom CSS
 if bg_image:
     st.markdown(
         f"""
@@ -30,66 +31,50 @@ if bg_image:
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
-                color: white;
-                text-align: center;
-            }}
-            .cloak-container {{
-                padding: 20px;
-                background: rgba(0, 0, 0, 0.7);
-                border-radius: 10px;
-            }}
-            .cloak-button:hover {{
-                background-color: #ffcc00 !important;
-                transform: scale(1.1);
-                transition: 0.3s;
             }}
         </style>
         """,
         unsafe_allow_html=True,
     )
 
-# st.title("🧙‍♂️ Harry Potter's Invisibility Cloak")
-# st.write("Step into the magical world and choose your cloak color to disappear like Harry Potter!")
+# Create a container with centered content
+container = st.container()
 
-# Title with magical font
-st.markdown("""
-    <h1 style='font-family: fantasy; color: gold; text-shadow: 2px 2px 5px #000;'>
-        🔮 Harry Potter's Invisibility Cloak
-    </h1>
-""", unsafe_allow_html=True)
+# Add header and description
+with container:
+    st.markdown("<h1 style='font-family: Harry Potter; color: #ffcc00; text-align: center;'>🧙‍♂️ Harry Potter Invisibility Cloak</h1>", unsafe_allow_html=True)
 
-st.write("Step into the magical world and choose your cloak color to disappear like Harry Potter!")
+# Add a dropdown to choose cloak color
+with container:
+    st.markdown("<h2 style='font-family: Harry Potter; font-size: 20px; color: #fff; text-align: center;'>Choose Your Cloak Color</h2>", unsafe_allow_html=True)
+    cloak_color = st.selectbox("", ["Red", "Green", "Blue", "Yellow"])
 
-# Cloak color selection with emojis for fun
-cloak_color = st.selectbox(
-    "Choose Your Cloak Color",
-    ["\U0001F534 Red", "\U0001F7E2 Green", "\U0001F535 Blue", "\U0001F7E1 Yellow"],
-    index=1,
-)
+# Display the chosen cloak color
+with container:
+    st.markdown(f"<div style='background-color: {cloak_color.lower()}; width: 100%; height: 120px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; color: #ffffff;'>{cloak_color}</div>", unsafe_allow_html=True)
 
-# Extract the color name
-color_name = cloak_color.split(" ")[1].lower()
-
-# Display a preview box for the selected color
-st.markdown(f"""
-    <div style='background-color: {color_name}; width: 100%; height: 80px;
-                border-radius: 10px; display: flex; justify-content: center;
-                align-items: center; font-size: 24px; color: white;'>
-        {cloak_color}
-    </div>
-""", unsafe_allow_html=True)
-
-# Button to activate the selected cloak
-if st.button(f"Activate {cloak_color} Cloak", key=color_name, help="Click to vanish!"):
-    try:
-        subprocess.run(["python", f"{color_name}.py"])
-        st.success(f"{cloak_color} Cloak Activated! 🌟")
-    except Exception as e:
-        st.error(f"Error: {e}")
-
-# Add some animation text for effect
-st.markdown("""
-    <h3 style='color: lightblue;'>
-        "The cloak shimmers... You slowly fade away!" 🌟
-    </h3>
-""", unsafe_allow_html=True)
+# Add a button to launch the corresponding color module
+if cloak_color == "Red":
+    if st.button("Launch Red Cloak"):
+        try:
+            subprocess.run(["python", "red.py"])
+        except Exception as e:
+            st.error(f"Error: {e}")
+elif cloak_color == "Green":
+    if st.button("Launch Green Cloak"):
+        try:
+            subprocess.run(["python", "green.py"])
+        except Exception as e:
+            st.error(f"Error: {e}")
+elif cloak_color == "Blue":
+    if st.button("Launch Blue Cloak"):
+        try:
+            subprocess.run(["python", "blue.py"])
+        except Exception as e:
+            st.error(f"Error: {e}")
+elif cloak_color == "Yellow":
+    if st.button("Launch Yellow Cloak"):
+        try:
+            subprocess.run(["python", "yellow.py"])
+        except Exception as e:
+            st.error(f"Error: {e}")
