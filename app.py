@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # Get base64 string of the background image
-bg_image = get_base64_image("dark-castle.jpg")
+bg_image = get_base64_image("background1.jpg")
 
 # Apply the background using custom CSS
 if bg_image:
