@@ -21,7 +21,7 @@ Ensure you have the following installed:
 
 - Clone this repository:
 
-  git clone //repo
+  git clone https://github.com/kumudwaykole/invisibility-cloak.git
   
   cd invisibility-cloak
 
